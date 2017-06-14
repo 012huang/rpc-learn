@@ -1,12 +1,10 @@
 package com.slowlizard.rpc.server;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.slowlizard.rpc.contract.IDemoService;
 import com.slowlizard.rpc.serializer.MethodInvoker;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -21,10 +19,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		System.out.println("server come here:channelRead");
 		MethodInvoker methodInvoker = (MethodInvoker) msg;
-//		methodInvoker.getClazz();
 		 Object service = springApplicationContext.getBean(methodInvoker.getClazz());
-		 
-		
 		Method[] methods = service.getClass().getDeclaredMethods();
 		for (Method method : methods) {
 			if (method.getName().equals(methodInvoker.getMethod())) {
